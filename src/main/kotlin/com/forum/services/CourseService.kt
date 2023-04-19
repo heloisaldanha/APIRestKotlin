@@ -16,8 +16,8 @@ class CourseService(var courses: List<Course>) {
     }
 
     fun getById(id: Long): Course {
-        val courseById = courses.stream().filter { t ->
-            t.id == id
+        val courseById = courses.stream().filter { course ->
+            course.id == id
         }.findFirst().get()
 
         return courseById

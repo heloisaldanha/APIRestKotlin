@@ -16,8 +16,8 @@ class UserService(var users: List<User>) {
     }
 
     fun getById(id: Long): User {
-        val userById = users.stream().filter { t ->
-            t.id == id
+        val userById = users.stream().filter { user ->
+            user.id == id
         }.findFirst().get()
 
         return userById

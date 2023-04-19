@@ -1,7 +1,7 @@
 package com.forum.controllers
 
-import com.forum.dtos.SubjectDTO
-import com.forum.models.Subject
+import com.forum.dtos.SubjectDTOForm
+import com.forum.dtos.SubjectDTOView
 import com.forum.services.SubjectService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,17 +17,17 @@ import java.util.*
 class SubjectController(private val service: SubjectService) {
 
     @GetMapping
-    fun getListSubjects(): List<Subject> {
+    fun getListSubjects(): List<SubjectDTOView> {
         return service.getListSubject()
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): Subject {
+    fun getById(@PathVariable id: Long): SubjectDTOView {
         return service.getById(id)
     }
 
     @PostMapping
-    fun create(@RequestBody subjectDto: SubjectDTO) {
+    fun create(@RequestBody subjectDto: SubjectDTOForm) {
         service.create(subjectDto)
     }
 
