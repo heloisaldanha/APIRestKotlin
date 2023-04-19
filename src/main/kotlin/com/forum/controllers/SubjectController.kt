@@ -1,5 +1,6 @@
 package com.forum.controllers
 
+import com.forum.dtos.SubjectDTO
 import com.forum.models.Subject
 import com.forum.services.SubjectService
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,8 +27,8 @@ class SubjectController(private val service: SubjectService) {
     }
 
     @PostMapping
-    fun create(@RequestBody subject: Subject) {
-        service.create(subject)
+    fun create(@RequestBody subjectDto: SubjectDTO) {
+        service.create(subjectDto)
     }
 
 }

@@ -9,7 +9,7 @@ data class Subject(
     val message: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val course: Course,
-    val author: User,
+    val user: User,
     val status: Status = Status.NOT_ANSWERED,
     val reply: List<Reply> = ArrayList()
 )
