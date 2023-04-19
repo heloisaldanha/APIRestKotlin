@@ -2,6 +2,8 @@ package com.forum.services
 
 import com.forum.dtos.SubjectDTOForm
 import com.forum.dtos.SubjectDTOView
+import com.forum.mappers.SubjectFormMapper
+import com.forum.mappers.SubjectViewMapper
 import com.forum.models.Subject
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
@@ -9,18 +11,12 @@ import java.util.stream.Collectors
 @Service
 class SubjectService(
     private var subjects: List<Subject> = mutableListOf(),
-    private var courseService: CourseService,
-    private var userService: UserService
+    private val subjectViewMapper: SubjectViewMapper,
+    private val subjectFormMapper: SubjectFormMapper
 ) {
 
     fun getListSubject(): List<SubjectDTOView> {
-        return subjects.stream().map { subject -> SubjectDTOView(
-            id = subject.id,
-            title = subject.title,
-            message = subject.message,
-            status = subject.status,
-            createdAt = subject.createdAt
-            )
+        return subjects.stream().map { subject -> subjectViewMapper.map(subject)
         }.collect(Collectors.toList())
     }
 
@@ -29,24 +25,12 @@ class SubjectService(
             subject.id == id
         }.findFirst().get()
 
-        return SubjectDTOView(
-            id = subjectById.id,
-            title = subjectById.title,
-            message = subjectById.message,
-            status = subjectById.status,
-            createdAt = subjectById.createdAt
-        )
+        return subjectViewMapper.map(subjectById)
     }
 
-    fun create(subjectDto: SubjectDTOForm) {
-        subjects = subjects.plus(Subject(
-            id = subjects.size.toLong() + 1,
-            title = subjectDto.title,
-            message = subjectDto.message,
-            course = courseService.getById(subjectDto.idCourse),
-            user = userService.getById(subjectDto.idUser)
-        )
-
-        )
+    fun create(form: SubjectDTOForm) {
+        val subject = subjectFormMapper.map(form)
+        subject.id = subjects.size.toLong() + 1
+        subjects = subjects.plus(subject)
     }
 }

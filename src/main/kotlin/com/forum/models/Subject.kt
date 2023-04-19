@@ -4,7 +4,7 @@ import com.forum.enums.Status
 import java.time.LocalDateTime
 
 data class Subject(
-    val id: Long? = null,
+    var id: Long? = null,
     val title : String,
     val message: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
