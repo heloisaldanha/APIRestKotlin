@@ -1,6 +1,6 @@
 package com.forum.dtos
 
-data class SubjectDTO(
+data class SubjectDTOForm(
     val title: String,
     val message: String,
     val idCourse: Long,
