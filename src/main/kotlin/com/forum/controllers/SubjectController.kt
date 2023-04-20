@@ -3,6 +3,7 @@ package com.forum.controllers
 import com.forum.dtos.SubjectDTOForm
 import com.forum.dtos.SubjectDTOView
 import com.forum.services.SubjectService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,7 +28,7 @@ class SubjectController(private val service: SubjectService) {
     }
 
     @PostMapping
-    fun create(@RequestBody subjectDto: SubjectDTOForm) {
+    fun create(@RequestBody @Valid subjectDto: SubjectDTOForm) {
         service.create(subjectDto)
     }
 
