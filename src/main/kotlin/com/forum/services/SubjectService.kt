@@ -1,7 +1,8 @@
 package com.forum.services
 
-import com.forum.dtos.SubjectDTOForm
-import com.forum.dtos.SubjectDTOView
+import com.forum.dtos.SubjectFormDTO
+import com.forum.dtos.SubjectViewDTO
+import com.forum.dtos.UpdateSubjectFormDTO
 import com.forum.mappers.SubjectFormMapper
 import com.forum.mappers.SubjectViewMapper
 import com.forum.models.Subject
@@ -15,12 +16,12 @@ class SubjectService(
     private val subjectFormMapper: SubjectFormMapper
 ) {
 
-    fun getListSubject(): List<SubjectDTOView> {
+    fun getListSubject(): List<SubjectViewDTO> {
         return subjects.stream().map { subject -> subjectViewMapper.map(subject)
         }.collect(Collectors.toList())
     }
 
-    fun getById(id: Long): SubjectDTOView {
+    fun getById(id: Long): SubjectViewDTO {
         val subjectById = subjects.stream().filter { subject ->
             subject.id == id
         }.findFirst().get()
@@ -28,9 +29,26 @@ class SubjectService(
         return subjectViewMapper.map(subjectById)
     }
 
-    fun create(form: SubjectDTOForm) {
+    fun create(form: SubjectFormDTO) {
         val subject = subjectFormMapper.map(form)
         subject.id = subjects.size.toLong() + 1
         subjects = subjects.plus(subject)
+    }
+
+    fun update(updateSubjectFormDTO: UpdateSubjectFormDTO) {
+        val subject = subjects.stream().filter {subject ->
+            subject.id == updateSubjectFormDTO.id
+        }.findFirst().get()
+
+        subjects = subjects.minus(subject).plus(Subject(
+            id = updateSubjectFormDTO.id,
+            title = updateSubjectFormDTO.title,
+            message = updateSubjectFormDTO.message,
+            user = subject.user,
+            course = subject.course,
+            reply = subject.reply,
+            status = subject.status,
+            createdAt = subject.createdAt
+        ))
     }
 }

@@ -1,6 +1,6 @@
 package com.forum.mappers
 
-import com.forum.dtos.SubjectDTOForm
+import com.forum.dtos.SubjectFormDTO
 import com.forum.models.Subject
 import com.forum.services.CourseService
 import com.forum.services.UserService
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component
 class SubjectFormMapper(
     private val courseService: CourseService,
     private val userService: UserService
-): Mapper<SubjectDTOForm, Subject> {
+): Mapper<SubjectFormDTO, Subject> {
 
-    override fun map(subject: SubjectDTOForm): Subject {
+    override fun map(subject: SubjectFormDTO): Subject {
         return Subject(
             title = subject.title,
             message = subject.message,
