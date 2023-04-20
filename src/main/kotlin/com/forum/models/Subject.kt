@@ -5,7 +5,6 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "topico")
 data class Subject(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +17,7 @@ data class Subject(
     val course: Course,
 
     @ManyToOne
-    val user: User,
+    val user: UserClient,
 
     @Enumerated(value = EnumType.STRING)
     val status: Status = Status.NOT_ANSWERED,
