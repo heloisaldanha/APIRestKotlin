@@ -3,7 +3,7 @@ package com.forum.dtos
 import com.forum.enums.Status
 import java.time.LocalDateTime
 
-data class SubjectDTOView(
+data class SubjectViewDTO(
     val id: Long? = null,
     val title: String,
     val message: String,
