@@ -29,19 +29,19 @@ class SubjectService(
         return subjectViewMapper.map(subjectById)
     }
 
-    fun create(form: SubjectFormDTO) {
+    fun create(form: SubjectFormDTO): SubjectViewDTO {
         val subject = subjectFormMapper.map(form)
         subject.id = subjects.size.toLong() + 1
         subjects = subjects.plus(subject)
+        return subjectViewMapper.map(subject)
     }
 
-    fun update(updateSubjectFormDTO: UpdateSubjectFormDTO) {
+    fun update(updateSubjectFormDTO: UpdateSubjectFormDTO): SubjectViewDTO {
         val subject = subjects.stream().filter {subject ->
             subject.id == updateSubjectFormDTO.id
         }.findFirst().get()
 
-        subjects = subjects.minus(subject).plus(
-            Subject(
+        val subjectViewUpdated = Subject(
             id = updateSubjectFormDTO.id,
             title = updateSubjectFormDTO.title,
             message = updateSubjectFormDTO.message,
@@ -51,7 +51,9 @@ class SubjectService(
             status = subject.status,
             createdAt = subject.createdAt
         )
-        )
+
+        subjects = subjects.minus(subject).plus(subjectViewUpdated)
+        return subjectViewMapper.map(subjectViewUpdated)
     }
 
     fun delete(id: Long) {
