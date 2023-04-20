@@ -3,6 +3,7 @@ package com.forum.services
 import com.forum.dtos.SubjectFormDTO
 import com.forum.dtos.SubjectViewDTO
 import com.forum.dtos.UpdateSubjectFormDTO
+import com.forum.exceptions.NotFoundException
 import com.forum.mappers.SubjectFormMapper
 import com.forum.mappers.SubjectViewMapper
 import com.forum.models.Subject
@@ -24,7 +25,7 @@ class SubjectService(
     fun getById(id: Long): SubjectViewDTO {
         val subjectById = subjects.stream().filter { subject ->
             subject.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException("ID não encontrado.") }
 
         return subjectViewMapper.map(subjectById)
     }
@@ -39,7 +40,7 @@ class SubjectService(
     fun update(updateSubjectFormDTO: UpdateSubjectFormDTO): SubjectViewDTO {
         val subject = subjects.stream().filter {subject ->
             subject.id == updateSubjectFormDTO.id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException("ID não encontrado.") }
 
         val subjectViewUpdated = Subject(
             id = updateSubjectFormDTO.id,
@@ -59,7 +60,7 @@ class SubjectService(
     fun delete(id: Long) {
         val subject = subjects.stream().filter {subject ->
             subject.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException("ID não encontrado.") }
 
         subjects = subjects.minus(subject)
     }
