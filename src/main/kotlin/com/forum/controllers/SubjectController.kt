@@ -7,6 +7,7 @@ import com.forum.services.SubjectService
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,7 +33,7 @@ class SubjectController(private val service: SubjectService) {
     @GetMapping
     fun getListSubjects(
         @RequestParam(required = false) courseName: String?,
-        @PageableDefault(size = 5) page: Pageable
+        @PageableDefault(size = 5, sort = [ "createdAt" ], direction = Sort.Direction.DESC ) page: Pageable
     ): Page<SubjectViewDTO> = service.getListSubject(courseName, page)
 
     @GetMapping("/{id}")
