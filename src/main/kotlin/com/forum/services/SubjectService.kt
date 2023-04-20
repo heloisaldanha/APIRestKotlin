@@ -40,7 +40,8 @@ class SubjectService(
             subject.id == updateSubjectFormDTO.id
         }.findFirst().get()
 
-        subjects = subjects.minus(subject).plus(Subject(
+        subjects = subjects.minus(subject).plus(
+            Subject(
             id = updateSubjectFormDTO.id,
             title = updateSubjectFormDTO.title,
             message = updateSubjectFormDTO.message,
@@ -49,6 +50,15 @@ class SubjectService(
             reply = subject.reply,
             status = subject.status,
             createdAt = subject.createdAt
-        ))
+        )
+        )
+    }
+
+    fun delete(id: Long) {
+        val subject = subjects.stream().filter {subject ->
+            subject.id == id
+        }.findFirst().get()
+
+        subjects = subjects.minus(subject)
     }
 }

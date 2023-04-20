@@ -5,6 +5,7 @@ import com.forum.dtos.SubjectViewDTO
 import com.forum.dtos.UpdateSubjectFormDTO
 import com.forum.services.SubjectService
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -37,6 +38,11 @@ class SubjectController(private val service: SubjectService) {
     @PutMapping
     fun update(@RequestBody @Valid updateSubjectFormDTO: UpdateSubjectFormDTO) {
         service.update(updateSubjectFormDTO)
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long) {
+        service.delete(id)
     }
 
 }
