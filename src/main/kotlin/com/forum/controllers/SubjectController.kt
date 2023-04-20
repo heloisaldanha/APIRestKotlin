@@ -5,6 +5,8 @@ import com.forum.dtos.SubjectViewDTO
 import com.forum.dtos.UpdateSubjectFormDTO
 import com.forum.services.SubjectService
 import jakarta.validation.Valid
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -27,10 +29,11 @@ import java.util.*
 
 
 @RestController
-@RequestMapping("/topicos")
+@RequestMapping("/subjects")
 class SubjectController(private val service: SubjectService) {
 
     @GetMapping
+    @Cacheable("subjects")
     fun getListSubjects(
         @RequestParam(required = false) courseName: String?,
         @PageableDefault(size = 5, sort = [ "createdAt" ], direction = Sort.Direction.DESC ) page: Pageable
@@ -42,17 +45,19 @@ class SubjectController(private val service: SubjectService) {
 
     @PostMapping
     @Transactional
+    @CacheEvict("subjects", allEntries = true)
     fun create(
         @RequestBody @Valid subjectFormDto: SubjectFormDTO,
         uriBuilder: UriComponentsBuilder  // UriComponentsBuild vai chamar a uri do servidor
     ):ResponseEntity<SubjectViewDTO> {
         val subjectView = service.create(subjectFormDto)
-        val uri = uriBuilder.path("/topicos/${subjectView.id}").build().toUri()
+        val uri = uriBuilder.path("/subjects/${subjectView.id}").build().toUri()
         return ResponseEntity.created(uri).body(subjectView)
     }
 
     @PutMapping
     @Transactional
+    @CacheEvict("subjects", allEntries = true)
     fun update(@RequestBody @Valid updateSubjectFormDTO: UpdateSubjectFormDTO): ResponseEntity<SubjectViewDTO> {
         val subjectView = service.update(updateSubjectFormDTO)
         return ResponseEntity.ok(subjectView)
@@ -61,6 +66,7 @@ class SubjectController(private val service: SubjectService) {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict("subjects", allEntries = true)
     fun delete(@PathVariable id: Long) = service.delete(id)
 
 }
