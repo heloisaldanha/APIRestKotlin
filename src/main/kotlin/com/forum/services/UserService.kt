@@ -1,26 +1,14 @@
 package com.forum.services
 
 import com.forum.models.User
+import com.forum.respositories.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(var users: List<User>) {
-    init {
-        val user = User(
-            id = 1,
-            name = "Heloísa",
-            email = "heloisa@email.com"
-        )
-
-        users = listOf(user)
-    }
+class UserService(private val repository: UserRepository) {
 
     fun getById(id: Long): User {
-        val userById = users.stream().filter { user ->
-            user.id == id
-        }.findFirst().get()
-
-        return userById
+        return repository.getReferenceById(id)
     }
 
 }

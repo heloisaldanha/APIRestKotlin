@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driveClassName: org.h2.Driver
+    url: jdbc:h2:mem:forum
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true   # criar a tabela automaticamente
+    properties:
+      hibernate:
+        show_sql: true   # essas duas propriedades...
+        format_sql: true   # ...mostram o log do sql
