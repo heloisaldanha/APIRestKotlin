@@ -5,6 +5,9 @@ import com.forum.dtos.SubjectViewDTO
 import com.forum.dtos.UpdateSubjectFormDTO
 import com.forum.services.SubjectService
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
@@ -27,14 +30,14 @@ import java.util.*
 class SubjectController(private val service: SubjectService) {
 
     @GetMapping
-    fun getListSubjects(@RequestParam(required = false) courseName: String?): List<SubjectViewDTO> {
-        return service.getListSubject(courseName)
-    }
+    fun getListSubjects(
+        @RequestParam(required = false) courseName: String?,
+        @PageableDefault(size = 5) page: Pageable
+    ): Page<SubjectViewDTO> = service.getListSubject(courseName, page)
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): SubjectViewDTO {
-        return service.getById(id)
-    }
+    fun getById(@PathVariable id: Long): SubjectViewDTO = service.getById(id)
+
 
     @PostMapping
     @Transactional
@@ -57,8 +60,6 @@ class SubjectController(private val service: SubjectService) {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    fun delete(@PathVariable id: Long) {
-        service.delete(id)
-    }
+    fun delete(@PathVariable id: Long) = service.delete(id)
 
 }

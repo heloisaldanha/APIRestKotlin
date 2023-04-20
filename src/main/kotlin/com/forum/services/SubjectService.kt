@@ -7,8 +7,9 @@ import com.forum.exceptions.NotFoundException
 import com.forum.mappers.SubjectFormMapper
 import com.forum.mappers.SubjectViewMapper
 import com.forum.respositories.SubjectRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
 
 @Service
 class SubjectService(
@@ -17,14 +18,14 @@ class SubjectService(
     private val subjectFormMapper: SubjectFormMapper
 ) {
 
-    fun getListSubject(courseName: String?): List<SubjectViewDTO> {
+    fun getListSubject(courseName: String?, page: Pageable): Page<SubjectViewDTO> {
         val subjects = if (courseName.isNullOrEmpty()) {
-            repository.findAll()
+            repository.findAll(page)
         } else {
-            repository.findByCourseName(courseName)
+            repository.findByCourseName(courseName, page)
         }
-        return subjects.stream().map { subject -> subjectViewMapper.map(subject)
-        }.collect(Collectors.toList())
+        return subjects.map { subject -> subjectViewMapper.map(subject)
+        }
     }
 
     fun getById(id: Long): SubjectViewDTO {
