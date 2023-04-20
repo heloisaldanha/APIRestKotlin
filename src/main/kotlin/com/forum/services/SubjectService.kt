@@ -6,62 +6,42 @@ import com.forum.dtos.UpdateSubjectFormDTO
 import com.forum.exceptions.NotFoundException
 import com.forum.mappers.SubjectFormMapper
 import com.forum.mappers.SubjectViewMapper
-import com.forum.models.Subject
+import com.forum.respositories.SubjectRepository
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
 @Service
 class SubjectService(
-    private var subjects: List<Subject> = mutableListOf(),
+    private var repository: SubjectRepository,
     private val subjectViewMapper: SubjectViewMapper,
     private val subjectFormMapper: SubjectFormMapper
 ) {
 
     fun getListSubject(): List<SubjectViewDTO> {
-        return subjects.stream().map { subject -> subjectViewMapper.map(subject)
+        return repository.findAll().stream().map { subject -> subjectViewMapper.map(subject)
         }.collect(Collectors.toList())
     }
 
     fun getById(id: Long): SubjectViewDTO {
-        val subjectById = subjects.stream().filter { subject ->
-            subject.id == id
-        }.findFirst().orElseThrow { NotFoundException("ID não encontrado.") }
+        val subjectById = repository.findById(id).orElseThrow { NotFoundException("ID não encontrado.") }
 
         return subjectViewMapper.map(subjectById)
     }
 
     fun create(form: SubjectFormDTO): SubjectViewDTO {
         val subject = subjectFormMapper.map(form)
-        subject.id = subjects.size.toLong() + 1
-        subjects = subjects.plus(subject)
+        repository.save(subject)
         return subjectViewMapper.map(subject)
     }
 
     fun update(updateSubjectFormDTO: UpdateSubjectFormDTO): SubjectViewDTO {
-        val subject = subjects.stream().filter {subject ->
-            subject.id == updateSubjectFormDTO.id
-        }.findFirst().orElseThrow { NotFoundException("ID não encontrado.") }
-
-        val subjectViewUpdated = Subject(
-            id = updateSubjectFormDTO.id,
-            title = updateSubjectFormDTO.title,
-            message = updateSubjectFormDTO.message,
-            user = subject.user,
-            course = subject.course,
-            reply = subject.reply,
-            status = subject.status,
-            createdAt = subject.createdAt
-        )
-
-        subjects = subjects.minus(subject).plus(subjectViewUpdated)
-        return subjectViewMapper.map(subjectViewUpdated)
+        val subject = repository.findById(updateSubjectFormDTO.id).orElseThrow { NotFoundException("ID não encontrado.") }
+        subject.title = updateSubjectFormDTO.title
+        subject.message = updateSubjectFormDTO.message
+        return subjectViewMapper.map(subject)
     }
 
     fun delete(id: Long) {
-        val subject = subjects.stream().filter {subject ->
-            subject.id == id
-        }.findFirst().orElseThrow { NotFoundException("ID não encontrado.") }
-
-        subjects = subjects.minus(subject)
+        repository.deleteById(id)
     }
 }

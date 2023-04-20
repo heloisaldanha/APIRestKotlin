@@ -1,15 +1,28 @@
 package com.forum.models
 
 import com.forum.enums.Status
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
+@Entity
+@Table(name = "topico")
 data class Subject(
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    val title : String,
-    val message: String,
+    var title : String,
+    var message: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @ManyToOne
     val course: Course,
+
+    @ManyToOne
     val user: User,
+
+    @Enumerated(value = EnumType.STRING)
     val status: Status = Status.NOT_ANSWERED,
+
+    @OneToMany(mappedBy = "subject")
     val reply: List<Reply> = ArrayList()
 )

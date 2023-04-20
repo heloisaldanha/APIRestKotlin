@@ -7,6 +7,7 @@ import com.forum.services.SubjectService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,6 +36,7 @@ class SubjectController(private val service: SubjectService) {
     }
 
     @PostMapping
+    @Transactional
     fun create(
         @RequestBody @Valid subjectFormDto: SubjectFormDTO,
         uriBuilder: UriComponentsBuilder  // UriComponentsBuild vai chamar a uri do servidor
@@ -45,6 +47,7 @@ class SubjectController(private val service: SubjectService) {
     }
 
     @PutMapping
+    @Transactional
     fun update(@RequestBody @Valid updateSubjectFormDTO: UpdateSubjectFormDTO): ResponseEntity<SubjectViewDTO> {
         val subjectView = service.update(updateSubjectFormDTO)
         return ResponseEntity.ok(subjectView)
@@ -52,6 +55,7 @@ class SubjectController(private val service: SubjectService) {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun delete(@PathVariable id: Long) {
         service.delete(id)
     }
