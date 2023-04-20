@@ -17,8 +17,13 @@ class SubjectService(
     private val subjectFormMapper: SubjectFormMapper
 ) {
 
-    fun getListSubject(): List<SubjectViewDTO> {
-        return repository.findAll().stream().map { subject -> subjectViewMapper.map(subject)
+    fun getListSubject(courseName: String?): List<SubjectViewDTO> {
+        val subjects = if (courseName.isNullOrEmpty()) {
+            repository.findAll()
+        } else {
+            repository.findByCourseName(courseName)
+        }
+        return subjects.stream().map { subject -> subjectViewMapper.map(subject)
         }.collect(Collectors.toList())
     }
 

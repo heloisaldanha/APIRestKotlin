@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -26,8 +27,8 @@ import java.util.*
 class SubjectController(private val service: SubjectService) {
 
     @GetMapping
-    fun getListSubjects(): List<SubjectViewDTO> {
-        return service.getListSubject()
+    fun getListSubjects(@RequestParam(required = false) courseName: String?): List<SubjectViewDTO> {
+        return service.getListSubject(courseName)
     }
 
     @GetMapping("/{id}")
