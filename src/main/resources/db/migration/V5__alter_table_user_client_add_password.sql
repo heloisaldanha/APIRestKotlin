@@ -1,0 +1,1 @@
+ALTER TABLE user_client ADD COLUMN password VARCHAR(100);

@@ -1,0 +1,1 @@
+UPDATE user_client SET password = '$2a$12$2.Fl13vetO9SdTxYUoqC3.JtYXhXGrkUgpJ0t5tJcaESwgOH5xJla' WHERE id = 1;
