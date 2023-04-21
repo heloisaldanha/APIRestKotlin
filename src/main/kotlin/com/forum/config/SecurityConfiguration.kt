@@ -18,6 +18,7 @@ class SecurityConfiguration(
     fun configure(http: HttpSecurity?) {
         http
             ?.authorizeHttpRequests()
+            ?.requestMatchers("/subjects")?.hasAuthority("LEITURA_ESCRITA")
             ?.anyRequest()
             ?.authenticated()
             ?.and()
