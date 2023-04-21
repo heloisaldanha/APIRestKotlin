@@ -1,5 +1,6 @@
 package com.forum.controllers
 
+import com.forum.dtos.SubjectForCategoryDTO
 import com.forum.dtos.SubjectFormDTO
 import com.forum.dtos.SubjectViewDTO
 import com.forum.dtos.UpdateSubjectFormDTO
@@ -68,5 +69,8 @@ class SubjectController(private val service: SubjectService) {
     @Transactional
     @CacheEvict("subjects", allEntries = true)
     fun delete(@PathVariable id: Long) = service.delete(id)
+
+    @GetMapping("/report")
+    fun getReport(): List<SubjectForCategoryDTO> = service.getReport()
 
 }

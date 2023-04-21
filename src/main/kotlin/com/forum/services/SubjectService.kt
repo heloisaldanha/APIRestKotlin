@@ -1,5 +1,6 @@
 package com.forum.services
 
+import com.forum.dtos.SubjectForCategoryDTO
 import com.forum.dtos.SubjectFormDTO
 import com.forum.dtos.SubjectViewDTO
 import com.forum.dtos.UpdateSubjectFormDTO
@@ -50,4 +51,6 @@ class SubjectService(
     fun delete(id: Long) {
         repository.deleteById(id)
     }
+
+    fun getReport(): List<SubjectForCategoryDTO> = repository.getReport()
 }
