@@ -5,6 +5,7 @@ import com.forum.respositories.UserClientRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 
 @Service
 class UserClientService(private val repository: UserClientRepository): UserDetailsService {
