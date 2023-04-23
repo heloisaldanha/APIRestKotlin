@@ -6,8 +6,8 @@ object SubjectTest {
 
     fun build() = Subject(
         id = 1,
-        title = "Desenvolvendo API com Kotlin",
-        message = "Do básico ao deploy",
+        title = "API REST com Kotlin",
+        message = "API REST com Kotlin",
         course = CourseTest.build(),
         user = UserClientTest.build()
     )

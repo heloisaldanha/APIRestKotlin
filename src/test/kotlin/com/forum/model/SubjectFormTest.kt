@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 object SubjectFormTest {
 
     fun build() = Subject(
-        title = "Desenvolvendo API com Kotlin",
-        message = "Do básico ao deploy",
+        title = "API REST com Kotlin",
+        message = "API REST com Kotlin",
         createdAt = LocalDateTime.now(),
         course = CourseTest.build(),
         user = UserClientTest.build(),
