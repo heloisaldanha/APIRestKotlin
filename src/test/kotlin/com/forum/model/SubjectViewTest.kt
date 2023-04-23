@@ -8,8 +8,8 @@ object SubjectViewTest {
 
     fun build() = SubjectViewDTO(
         id = 1,
-        title = "Desenvolvendo API com Kotlin",
-        message = "Do básico ao deploy",
+        title = "API REST com Kotlin",
+        message = "API REST com Kotlin",
         status = Status.NOT_ANSWERED,
         createdAt = LocalDateTime.now()
     )

@@ -58,7 +58,7 @@ class SubjectServiceTest {
     }
 
     @Test
-    fun `should list not found exception when subject id not found`() {
+    fun `should not shows a subject when subject id not found`() {
         every { subjectRepository.findById(any()) } returns Optional.empty()
 
         val actual = assertThrows<NotFoundException> {
@@ -73,7 +73,7 @@ class SubjectServiceTest {
 
         val form = SubjectFormDTO(
             title = "Kotlin",
-            message = "Do básico ao deploy",
+            message = "Kotlin",
             idCourse = 1L,
             idUser = 1L
         )
