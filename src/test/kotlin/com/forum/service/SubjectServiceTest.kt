@@ -70,21 +70,6 @@ class SubjectServiceTest {
 
     @Test
     fun `should create a subject and return subject view`() {
-
-        val form = SubjectFormDTO(
-            title = "Kotlin",
-            message = "Kotlin",
-            idCourse = 1L,
-            idUser = 1L
-        )
-
-        val expectedSubject = Subject(
-            title = form.title,
-            message = form.message,
-            course = CourseTest.build(),
-            user = UserClientTest.build()
-        )
-
         every { subjectFormMapper.map(form) } returns expectedSubject
         every { subjectRepository.save(expectedSubject) } returns expectedSubject
 
@@ -97,5 +82,21 @@ class SubjectServiceTest {
         verify(exactly = 1) { subjectFormMapper.map(form) }
         verify(exactly = 1) { subjectRepository.save(expectedSubject) }
         verify(exactly = 1) { subjectViewMapper.map(expectedSubject) }
+    }
+
+    companion object {
+        private val form = SubjectFormDTO(
+            title = "Kotlin",
+            message = "Kotlin",
+            idCourse = 1L,
+            idUser = 1L
+        )
+
+        private val expectedSubject = Subject(
+            title = form.title,
+            message = form.message,
+            course = CourseTest.build(),
+            user = UserClientTest.build()
+        )
     }
 }
